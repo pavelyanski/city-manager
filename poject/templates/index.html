@@ -10,7 +10,7 @@
 {% endif %}
 {% for item in news%}
 <div class="col-md6 border rounded">
-    <h2 style="background-color: gray" style="color: gold">{{item.city}}</h2>
+    <h3>{{item.city}}</h3>
     <div>
         Население: {{item.count_of_people}}
     </div>
@@ -20,19 +20,21 @@
     <div>
         <h5>Автор - {{item.user.name}}</h5>
     </div>
+    <nav>
+            <a class="btn btn-dark" href="/info" style="font-size: 12px">Подробнее</a>
+
     {% if current_user.is_authenticated and current_user == item.user %}
-    <div>
         <a href="/cities/{{ item.id }}" class="btn btn-warning" style="font-size: 12px">
             Изменить
         </a>
         <a href="/cities_delete/{{ item.id }}" class="btn btn-danger" style="font-size: 12px">
             Удалить
         </a>
+    {% endif %}
+    </nav>
     </div>
-{% endif %}
-</div>
 {% endfor %}
 {% else %}
-<h1> сначала зарегистрируйтесь</h1>
+<h4> сначала зарегистрируйтесь</h4>
 {% endif %}
 {% endblock %}

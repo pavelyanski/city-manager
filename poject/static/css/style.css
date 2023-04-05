@@ -1,14 +1,27 @@
 h1 {
    color: gold
 }
-''''
+h2 {
+
+    margin-left: auto;
+    margin-right: auto;
+    width: 6em
+}
+h3 {
+    color: gold;
+    background-color: #4b4b4b
+}
+h4 {
+    margin-left: auto;
+    margin-right: auto;
+    width: 6em
+}
 form.login_form {
     margin-left: auto;
     margin-right: auto;
     max-width: 800px;
     background-color: gold;
-    border: 1px solid gray;
-    border-radius: 5px;
-    padding: 10px;
+    border: 3px solid black;
+    border-radius: 30px;
+    padding: 20px
 }
-''''

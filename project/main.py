@@ -7,6 +7,7 @@ from data import db_session
 from data.users import User
 from data.cities import City
 from data.blocked_users import BUsers
+from data.selecteds import SelectedCity
 from forms.user import RegisterForm
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from forms.login import LoginForm
@@ -18,28 +19,33 @@ app.config['SECRET_KEY'] = 'sd23dq123sda4332wesdf212w121asdsdcxaium454'
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+
 def get_coord(city):
     try:
-        url = "http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b"\
+        url = "http://geocode-maps.yandex.ru/1.x/?apikey=40d1649f-0493-4b70-98ba-98533de7710b" \
               "&geocode={},1&format=json".format(city)
         response = requests.get(url)
         if response:
             d = response.json()
-            point = d["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]["Point"]["pos"]
+            point = d["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]["Point"][
+                "pos"]
             return point
         else:
             return "засекречено"
     except Exception as er:
         return "засекречено"
 
+
 @login_manager.user_loader
 def load_user(user_id):
     db_sess = db_session.create_session()
     return db_sess.query(User).get(user_id)
 
+
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("main_sheet.html")
+
 
 @app.route("/main")
 @login_required
@@ -168,12 +174,18 @@ def cities_delete(id):
         abort(404)
     return redirect('/main')
 
+
 @app.route('/info/<int:id>', methods=['GET', 'POST'])
 @login_required
 def get_info(id):
     db_sess = db_session.create_session()
     city = db_sess.query(City).filter(City.id == id).first()
-    return render_template('city.html', title=city.city, city=city, coord=get_coord(city.city))
+    selected = db_sess.query(SelectedCity).filter(SelectedCity.city_id == id).filter(
+        SelectedCity.user_id == current_user.id).first()
+    selected = False if not selected else True
+    return render_template('city.html', title=city.city, city=city, coord=get_coord(city.city),
+                           selected=selected)
+
 
 @app.route('/users/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -189,6 +201,7 @@ def user_profile(id):
         else:
             abort(404)
 
+
 @app.route('/userava/<int:id>')
 @login_required
 def userava(id):
@@ -201,6 +214,7 @@ def userava(id):
     h.headers['Content-Type'] = 'image/png'
     return h
 
+
 @app.route('/unblock/<int:id>', methods=['GET', 'POST'])
 @login_required
 def unblock(id):
@@ -208,6 +222,7 @@ def unblock(id):
     db_sess.query(BUsers).filter(BUsers.id == id).filter(BUsers.user_id == current_user.id).delete()
     db_sess.commit()
     return redirect('/main')
+
 
 @app.route('/block/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -225,7 +240,38 @@ def blocked_users():
     db_sess = db_session.create_session()
     b_users = db_sess.query(BUsers.id).filter(BUsers.user_id == current_user.id)
     users = db_sess.query(User).filter(User.id.in_(b_users))
-    return render_template("blocked.html", users=users, b_users=b_users)
+    return render_template("blocked.html", users=users)
+
+
+@app.route('/like/<int:id>', methods=['GET', 'POST'])
+@login_required
+def like(id):
+    db_sess = db_session.create_session()
+    selected_city = SelectedCity(user_id=current_user.id, city_id=id)
+    db_sess.add(selected_city)
+    db_sess.commit()
+    return redirect(f'/info/{id}')
+
+
+@app.route('/unlike/<int:id>', methods=['GET', 'POST'])
+@login_required
+def unlike(id):
+    db_sess = db_session.create_session()
+    db_sess.query(SelectedCity).filter(SelectedCity.city_id == id).filter(
+        SelectedCity.user_id == current_user.id).delete()
+    db_sess.commit()
+    return redirect(f'/info/{id}')
+
+
+@app.route("/selected_cities")
+@login_required
+def selected_cities():
+    db_sess = db_session.create_session()
+    selected_cities = db_sess.query(SelectedCity.city_id).filter(
+        SelectedCity.user_id == current_user.id)
+    cities = db_sess.query(City).filter(City.id.in_(selected_cities))
+    return render_template("selected_cities.html", cities=cities)
+
 
 def main():
     db_session.global_init("db/cities.db")

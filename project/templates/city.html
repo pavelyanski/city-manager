@@ -27,6 +27,18 @@
     </div>
     <div>
         <h5>Автор:</h5> <a href="/users/{{city.user_id}}">{{city.user.name}}</a>
+        <p></p>
+    </div>
+    <div>
+        {% if not selected%}
+            <a href="/like/{{ city.id }}" class="btn btn-success" style="font-size: 12px">
+                    Добавить в избранное
+            </a>
+        {% else %}
+            <a href="/unlike/{{ city.id }}" class="btn btn-danger" style="font-size: 12px">
+                    Удалить из избранного
+            </a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

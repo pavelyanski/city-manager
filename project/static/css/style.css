@@ -2,7 +2,6 @@ h1 {
    color: gold
 }
 h2 {
-
     margin-left: auto;
     margin-right: auto;
     width: 8em
@@ -16,6 +15,13 @@ h4 {
     margin-right: auto;
     text-align: center;
     width: 12em
+}
+h5.main_text {
+    text-align: center;
+    width: 50em
+}
+h5.city_autor {
+    width: 50em
 }
 h4.warning {
     margin-left: auto;
@@ -61,3 +67,20 @@ ul.profile-info li {margin-top: 30px; }
 .profile-table {
     font-size: 2.em
 }
+ul.main-info {
+         list-style: none;
+         margin: 10px 0 0 0;
+         padding: 10;
+         color: #000000;
+}
+a.main-info {
+         list-style: none;
+         margin: 10px 0 0 0;
+         padding: 10;
+         color: #000000;
+}
+ul.main-info li {margin-top: 30px; }
+.profile-table {
+    font-size: 2.em
+}
+

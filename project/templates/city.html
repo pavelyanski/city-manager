@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ city.city }}</h2>
+<div class="col-md6 border rounded">
+    <div>
+        <h5>Население:</h5> {{city.count_of_people}}
+        <p></p>
+    </div>
+    <div>
+        <h5>Море:</h5> {{"есть" if city.sea else "нет"}}
+        <p></p>
+    </div>
+    <div>
+        <h5>Метро:</h5> {{"есть" if city.subway else "нет"}}
+        <p></p>
+    </div>
+    <div>
+        <h5>Координаты:</h5> {{ coord }}
+        <p></p>
+    </div>
+    <div>
+        <h5>Подробная информация:</h5>
+        <p>
+            {{city.information}}
+        </p>
+    </div>
+    <div>
+        <h5>Автор:</h5> <a href="/users/{{city.user_id}}">{{city.user.name}}</a>
+    </div>
+</div>
+{% endblock %}

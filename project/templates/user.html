@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br><br><br>
+<table border="0" class="profile-table">
+    <tr><td valign="top">
+        <div class="col-md6 border rounded">
+            <div class="profile-ava">
+                <img src="{{ url_for('userava', id=user.id) }}">
+            </div>
+        </div>
+    </td>
+    <td valign="top" class="profile-panel">
+                   <ul class="profile-info">
+
+                   <li style="user_info">Имя: {{ user.name }}</li>
+                   <li style="user_info">О себе: {{ user.about }}</li>
+                   <li style="user_info">Зарегистирован: {{ user.created_date  }}</li>
+                   <li style="user_info">Городов создано: {{ user.city_count()  }}</li>
+                   {% if user.id == current_user.id %}
+                   <li><a class="btn btn-warning" href="{{url_for('blocked_users')}}">Заблокированные</a></li>
+                   <li><a class="btn btn-danger" href="{{url_for('logout')}}">Выйти из профиля</a></li>
+                   {% elif user.id not in b_users %}
+                   <li><a class="btn btn-danger" href="{{url_for('block', id=user.id)}}">Заблокировать</a></li>
+                   {% else %}
+                   <li><a class="btn btn-danger" href="{{url_for('unblock', id=user.id)}}">Разблокировать</a></li>
+                   {% endif %}
+                   </ul>
+         </td></tr>
+</table>
+{% endblock %}

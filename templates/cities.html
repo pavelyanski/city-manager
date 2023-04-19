@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h4>Добавление города</h4>
+<form action="" method="post" class="login_form">
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.city.label }}<br>
+        {{ form.city(class="form-control") }}<br>
+        {% for error in form.city.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.count_of_people.label }}<br>
+        {{ form.count_of_people(class="form-control") }}<br>
+        {% for error in form.count_of_people.errors %}
+            <p content="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.sea.label }}<br>
+        {{ form.sea(class="form-control") }}<br>
+        {% for error in form.sea.errors %}
+            <p content="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.subway.label }}<br>
+        {{ form.subway(class="form-control") }}<br>
+        {% for error in form.subway.errors %}
+            <p content="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p>
+        {{ form.information.label }}<br>
+        {{ form.information(class="form-control") }}<br>
+        {% for error in form.information.errors %}
+            <p content="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+        {% endfor %}
+    </p>
+    <p>{{ form.submit(type="submit", class="btn btn-dark") }}</p>
+    {{message}}
+</form>
+{% endblock %}

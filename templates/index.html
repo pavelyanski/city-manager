@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Список городов</h2><br>
+<a href="/cities" class="btn btn-dark">Добавить город</a><br><br>
+{% for item in cities%}
+<div class="col-md6 border rounded">
+    <h3>{{item.city}}</h3>
+    <div>
+        Население: {{item.count_of_people}}
+    </div>
+    <div>
+        Метро: {{"есть" if item.subway else "нет"}}
+    </div>
+    <div>
+        <h5 class="city_autor">Автор - {{item.user.name}}</h5>
+    </div>
+    <nav>
+            <a class="btn btn-dark" href="/info/{{ item.id }}" style="font-size: 12px">Подробнее</a>
+    {% if current_user.is_authenticated and current_user == item.user %}
+            <a href="/cities/{{ item.id }}" class="btn btn-warning" style="font-size: 12px">
+                Изменить
+            </a>
+            <a href="/cities_delete/{{ item.id }}" class="btn btn-danger" style="font-size: 12px">
+                Удалить
+            </a>
+    {% endif %}
+    </nav>
+    </div><br>
+{% endfor %}
+{% endblock %}

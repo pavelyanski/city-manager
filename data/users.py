@@ -3,7 +3,7 @@ import sqlalchemy
 from flask_login import UserMixin
 
 from . import db_session
-from .blocked_users import BUsers
+from .blocked_users import BlockedUser
 from .cities import City
 from .db_session import SqlAlchemyBase
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -49,6 +49,6 @@ class User(SqlAlchemyBase, UserMixin):
 
     def get_blocked_users(self):
         db_sess = db_session.create_session()
-        b_users = db_sess.query(BUsers.id).filter(BUsers.user_id == self.id)
+        b_users = db_sess.query(BlockedUser.id).filter(BlockedUser.user_id == self.id)
         users = db_sess.query(User).filter(User.id.in_(b_users)).all()
         return users

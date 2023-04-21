@@ -11,6 +11,7 @@ ___
 * Возможность редактировать добавленные города
 * Возможность удалять добавленные города
 * Возможноть блокировать пользователя
+* Возможность добавлять города в "избранное"
 ___
 ### Пояснительная записка
 #### Название проекта
@@ -39,10 +40,42 @@ ___
 * subway
 * information
 * user_id
+##### selected_cities
+* operation_id
+* user_id
+* city_id
+##### blocked_users
+* operation_id
+* user_id
+* id
+##### страницы сайта
+* /main
+* /register
+* /login
+* /logout
+* /cities/<[int:id]>
+* /cities
+* /cities_delete/<[int:id]>
+* /info/<[int:id]>
+* /users/<[int:id]>
+* /userava/<[int:id]> 
+* /block/<[int:id]>
+* /unblock/<[int:id]> 
+* /blocked_users
+* /like/<[int:id]>
+* /unlike/<[int:id]>
+* /selected_cities"
+
+
 #### Библиотеки
 Чтобы запустить код на стороннем устройстве необходимо установить следующие библиотеки:
-* Flask == 2.2.3
-* Flask-WTF == 1.1.1
-* Flask-Login == 0.6.2
+* flask == 2.2.3
+* flask_WTF == 1.1.1
+* flask_Login == 0.6.2
 * sqlalchemy == 2.0.4
-
+#### Скриншоты
+![скриншот](static/images/screen1.png)
+![скриншот](static/images/screen2.png)
+![скриншот](static/images/screen3.png)
+![скриншот](static/images/screen4.png)
+![скриншот](static/images/screen5.png)

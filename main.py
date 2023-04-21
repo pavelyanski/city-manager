@@ -1,12 +1,10 @@
 import sqlite3
 
-from flask import Flask, render_template, redirect, request, make_response, session, abort
-from sqlalchemy import create_engine
-
+from flask import Flask, render_template, redirect, request, make_response, abort
 from data import db_session
 from data.users import User
 from data.cities import City
-from data.blocked_users import BUsers
+from data.blocked_users import BlockedUser
 from data.selecteds import SelectedCity
 from forms.user import RegisterForm
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
@@ -51,7 +49,7 @@ def index():
 @login_required
 def main_sheet():
     db_sess = db_session.create_session()
-    b_users = db_sess.query(BUsers.id).filter(BUsers.user_id == current_user.id)
+    b_users = db_sess.query(BlockedUser.id).filter(BlockedUser.user_id == current_user.id)
     cities = db_sess.query(City).filter(City.user_id.notin_(b_users))
     return render_template("index.html", cities=cities)
 
@@ -194,7 +192,7 @@ def user_profile(id):
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.id == id).first()
         if user:
-            b_users = db_sess.query(BUsers.id).filter(BUsers.user_id == current_user.id).all()
+            b_users = db_sess.query(BlockedUser.id).filter(BlockedUser.user_id == current_user.id).all()
             if b_users:
                 b_users = [blocked_user[0] for blocked_user in b_users]
             return render_template('user.html', title=user.name, user=user, b_users=b_users)
@@ -219,7 +217,7 @@ def userava(id):
 @login_required
 def unblock(id):
     db_sess = db_session.create_session()
-    db_sess.query(BUsers).filter(BUsers.id == id).filter(BUsers.user_id == current_user.id).delete()
+    db_sess.query(BlockedUser).filter(BlockedUser.id == id).filter(BlockedUser.user_id == current_user.id).delete()
     db_sess.commit()
     return redirect('/main')
 
@@ -228,7 +226,7 @@ def unblock(id):
 @login_required
 def block(id):
     db_sess = db_session.create_session()
-    b_user = BUsers(user_id=current_user.id, id=id)
+    b_user = BlockedUser(user_id=current_user.id, id=id)
     db_sess.add(b_user)
     db_sess.commit()
     return redirect('/main')

@@ -106,7 +106,7 @@ def logout():
     return redirect("/register")
 
 
-@app.route('/cities/<int:id>', methods=['GET'])
+@app.route('/cities/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_cities(id):
     form = CityForm()

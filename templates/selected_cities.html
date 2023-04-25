@@ -7,8 +7,8 @@
 <div class="col-md6 border rounded">
     <h3>{{item.city}}</h3>
     <nav>
-            <a class="btn btn-warning" href="/info/{{ item.id }}" style="font-size: 12px">Подробнее</a>
-            <a class="btn btn-danger" href="/unlike/{{ item.id }}" style="font-size: 12px">Удалить из избранного</a>
+            <a class="btn btn-warning" href="{{ url_for('get_info', id=item.id) }}" style="font-size: 12px">Подробнее</a>
+            <a class="btn btn-danger" href="{{ url_for('unlike', id=item.id) }}" style="font-size: 12px">Удалить из избранного</a>
     </nav>
 </div>
 <p></p>

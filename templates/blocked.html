@@ -7,10 +7,11 @@
 <div class="col-md6 border rounded">
     <h3>{{item.name}}</h3>
     <nav>
-            <a class="btn btn-warning" href="/users/{{ item.id }}" style="font-size: 12px">Профиль</a>
-            <a class="btn btn-danger" href="/unblock/{{ item.id }}" style="font-size: 12px">Разблокировать</a>
+            <a class="btn btn-warning" href="{{ url_for('users', id=item.id) }}" style="font-size: 12px">Профиль</a>
+            <a class="btn btn-danger" href="{{ url_for('unblock', id=item.id) }}" style="font-size: 12px">Разблокировать</a>
     </nav>
 </div>
+<p></p>
 {% endfor %}
 {% else %}
 <h5 class="blocked_users">Упс, кажется, вы никого не блокировали</h5>

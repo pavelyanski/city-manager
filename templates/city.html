@@ -26,16 +26,16 @@
         </p>
     </div>
     <div>
-        <h5>Автор:</h5> <a href="/users/{{city.user_id}}">{{city.user.name}}</a>
+        <h5>Автор:</h5> <a href="{{ url_for('users', id=city.user_id) }}">{{city.user.name}}</a>
         <p></p>
     </div>
     <div>
         {% if not selected and city.user_id != current_user.id%}
-            <a href="/like/{{ city.id }}" class="btn btn-success" style="font-size: 12px">
+            <a href="{{ url_for('like', id=city.id) }}" class="btn btn-success" style="font-size: 12px">
                     Добавить в избранное
             </a>
         {% elif city.user_id != current_user.id%}
-            <a href="/unlike/{{ city.id }}" class="btn btn-danger" style="font-size: 12px">
+            <a href="{{ url_for('unlike', id=city.id) }}" class="btn btn-danger" style="font-size: 12px">
                     Удалить из избранного
             </a>
         {% endif %}

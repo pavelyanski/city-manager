@@ -106,7 +106,7 @@ def logout():
     return redirect("/register")
 
 
-@app.route('/cities/<int:id>', methods=['GET', 'POST'])
+@app.route('/edit_cities/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_cities(id):
     form = CityForm()
@@ -137,7 +137,7 @@ def edit_cities(id):
     return render_template('cities.html', title='Редактирование города', form=form)
 
 
-@app.route('/cities', methods=['GET', 'POST'])
+@app.route('/add_cities', methods=['GET', 'POST'])
 @login_required
 def add_cities():
     form = CityForm()
@@ -170,7 +170,7 @@ def cities_delete(id):
     return redirect('/main')
 
 
-@app.route('/info/<int:id>', methods=['GET'])
+@app.route('/get_info/<int:id>', methods=['GET'])
 @login_required
 def get_info(id):
     db_sess = db_session.create_session()
@@ -182,9 +182,9 @@ def get_info(id):
                            selected=selected)
 
 
-@app.route('/users/<int:id>', methods=['GET', 'POST'])
+@app.route('/users/<int:id>', methods=['GET'])
 @login_required
-def user_profile(id):
+def users(id):
     if request.method == "GET":
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.id == id).first()

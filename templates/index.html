@@ -13,7 +13,7 @@
         Метро: {{"есть" if item.subway else "нет"}}
     </div>
     <div>
-        <h5 class="city_autor">Автор - {{item.user.name}}</h5>
+        <h5 class="city_autor">Автор - <a href="/users/{{item.user_id}}" class="autor">{{item.user.name}}</a></h5>
     </div>
     <nav>
             <a class="btn btn-dark" href="/info/{{ item.id }}" style="font-size: 12px">Подробнее</a>

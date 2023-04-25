@@ -25,8 +25,7 @@ def get_coord(city):
         response = requests.get(url)
         if response:
             d = response.json()
-            point = d["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]["Point"][
-                "pos"]
+            point = d["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]["Point"]["pos"]
             return point
         else:
             return "засекречено"
@@ -107,7 +106,7 @@ def logout():
     return redirect("/register")
 
 
-@app.route('/cities/<int:id>', methods=['GET', 'POST'])
+@app.route('/cities/<int:id>', methods=['GET'])
 @login_required
 def edit_cities(id):
     form = CityForm()
@@ -158,13 +157,11 @@ def add_cities():
                            form=form)
 
 
-@app.route('/cities_delete/<int:id>', methods=['GET', 'POST'])
+@app.route('/cities_delete/<int:id>', methods=['GET'])
 @login_required
 def cities_delete(id):
     db_sess = db_session.create_session()
-    city = db_sess.query(City).filter(City.id == id,
-                                      City.user == current_user
-                                      ).first()
+    city = db_sess.query(City).filter(City.id == id, City.user == current_user).first()
     if city:
         db_sess.delete(city)
         db_sess.commit()
@@ -173,7 +170,7 @@ def cities_delete(id):
     return redirect('/main')
 
 
-@app.route('/info/<int:id>', methods=['GET', 'POST'])
+@app.route('/info/<int:id>', methods=['GET'])
 @login_required
 def get_info(id):
     db_sess = db_session.create_session()
@@ -213,16 +210,16 @@ def userava(id):
     return h
 
 
-@app.route('/unblock/<int:id>', methods=['GET', 'POST'])
+@app.route('/unblock/<int:id>', methods=['GET'])
 @login_required
 def unblock(id):
     db_sess = db_session.create_session()
     db_sess.query(BlockedUser).filter(BlockedUser.id == id).filter(BlockedUser.user_id == current_user.id).delete()
     db_sess.commit()
-    return redirect('/main')
+    return redirect(request.referrer)
 
 
-@app.route('/block/<int:id>', methods=['GET', 'POST'])
+@app.route('/block/<int:id>', methods=['GET'])
 @login_required
 def block(id):
     db_sess = db_session.create_session()
@@ -239,24 +236,24 @@ def blocked_users():
     return render_template("blocked.html", users=users)
 
 
-@app.route('/like/<int:id>', methods=['GET', 'POST'])
+@app.route('/like/<int:id>', methods=['GET'])
 @login_required
 def like(id):
     db_sess = db_session.create_session()
     selected_city = SelectedCity(user_id=current_user.id, city_id=id)
     db_sess.add(selected_city)
     db_sess.commit()
-    return redirect(f'/main')
+    return redirect(request.referrer)
 
 
-@app.route('/unlike/<int:id>', methods=['GET', 'POST'])
+@app.route('/unlike/<int:id>', methods=['GET'])
 @login_required
 def unlike(id):
     db_sess = db_session.create_session()
     db_sess.query(SelectedCity).filter(SelectedCity.city_id == id).filter(
         SelectedCity.user_id == current_user.id).delete()
     db_sess.commit()
-    return redirect(f'/main')
+    return redirect(request.referrer)
 
 
 @app.route("/selected_cities")

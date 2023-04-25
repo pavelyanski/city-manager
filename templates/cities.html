@@ -17,7 +17,7 @@
         {{ form.count_of_people.label }}<br>
         {{ form.count_of_people(class="form-control") }}<br>
         {% for error in form.count_of_people.errors %}
-            <p content="alert alert-danger" role="alert">
+            <p class="alert alert-danger" role="alert">
                 {{ error }}
             </p>
         {% endfor %}

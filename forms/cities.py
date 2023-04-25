@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField
 from wtforms import BooleanField, SubmitField
-from wtforms.validators import DataRequired, ValidationError, InputRequired
+from wtforms.validators import DataRequired, ValidationError
 
 from data import db_session
 from data.cities import City
@@ -9,7 +9,7 @@ from data.cities import City
 
 def check_type(form, field):
     if not field.data.isdigit():
-        raise ValidationError('Количество населения должно быть числом')
+        raise ValidationError("Количество населения должно быть числом")
 
 
 def check_availability(form, field):
@@ -22,7 +22,7 @@ def check_availability(form, field):
 
 class CityForm(FlaskForm):
     city = StringField('Название', validators=[DataRequired(), check_availability])
-    count_of_people = StringField("Население", validators=[InputRequired(), check_type])
+    count_of_people = StringField("Население", validators=[DataRequired(), check_type])
     sea = BooleanField("Море")
     subway = BooleanField("Метро")
     information = TextAreaField("Подробная информация")
